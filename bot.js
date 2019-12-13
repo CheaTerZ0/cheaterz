@@ -1,19 +1,7 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 var prefix = "*";
-client.on("message", message => {
-
-            if (message.content.startsWith(prefix + "bc")) {
-                         if (!message.member.hasPermission("ADMINISTRATOR"))  return;
-  let args = message.content.split(" ").slice(1);
-  var argresult = args.join(' '); 
-  message.guild.members.filter(m => m.presence.status !== 'offline').forEach(m => {
- m.send(`${argresult}\n ${m}`);
-})
- message.channel.send(`\`${message.guild.members.filter(m => m.presence.status !== 'online').size}\` : عدد الاعضاء المستلمين`); 
- message.delete(); 
-};     
-});client.on('message', message => {
+client.on('message', message => {
   if(!message.channel.guild) return;
 if(message.content.startsWith('*bc')) {
 if(!message.channel.guild) return message.channel.send('**this command only for server**').then(m => m.delete(5000));
@@ -54,17 +42,29 @@ msg.delete();
 }
 });
 
-
-client.on('ready', () => {
-   console.log(`----------------`);
-      console.log(`Desert Bot- Script By : Ar5z`);
-        console.log(`----------------`);
-      console.log(`ON ${client.guilds.size} Servers '     Script By : Ar5z ' `);
-    console.log(`----------------`);
-  console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`Hypixel|/g join Ar5z`,"http://twitch.tv/S-F")
-client.user.setStatus("dnd")
+client.on('ready', function(){
+    var ms = 60000 ;
+    var setGame = ['Hypixel | /g join Ar5z'];
+    var i = -1;
+    var j = 0;
+    setInterval(function (){
+        if( i == -1 ){
+            j = 1;
+        }
+        if( i == (setGame.length)-1 ){
+            j = -1;
+        }
+        i = i+j;
+        client.user.setGame(setGame[i],`http://www.twitch.tv/barontube`);
+    }, ms);
+    console.log(` ????????? |> Name: ${client.user.username}`);
+ console.log(` ????????? |> Servers: ${client.guilds.size}`);
+ console.log(` ???????????????????? |> Members: ${client.users.size}`);
+ console.log(` ????????????????????? |> Channels: ${client.channels.size}`);
+ console.log(` ???????????????????? |> Channels: ${client.channels.size}`);
+ console.log(` ???????????????????? |> Id: ${client.user.id}`);
+ console.log(` ???????????????????`);
+ console.log(` ???????????????????`);
 });
-
 
 client.login(process.env.BOT_TOKEN);
