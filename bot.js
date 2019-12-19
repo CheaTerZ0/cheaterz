@@ -161,7 +161,7 @@ client.on('message', msg => {
 
 client.on('ready', function(){
     var ms = 60000 ;
-    var setGame = ['Hypixel | /g join Ar5z'];
+    var setGame = ['Wlecome To Vengance Community'];
     var i = -1;
     var j = 0;
     setInterval(function (){
