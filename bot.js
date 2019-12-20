@@ -24,6 +24,7 @@ ${prefix}unmute @user | To remove mute from the person
 ${prefix}kick @user <reason> | kick the person from the server
 ${prefix}ban @user <reason> | banned the person from the server
 ${prefix}setlog | He gonna Create A log room 
+${prefix}bc | for send a broadcast
 
 **
    `,`
