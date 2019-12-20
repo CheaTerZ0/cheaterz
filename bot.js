@@ -2,6 +2,89 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 var prefix = "*";
 client.on('message', message => {
+if (message.content.startsWith(prefix + 'help')) { /// هذه قائمة الأوامر تفقد خاصك لقد رسلناها لك
+    let pages = [`**
+    By : @!Ar5z#2156 
+	Bot Name : [olixBOT]
+
+     ***__General orders | أوامر عامة__***
+**
+
+${prefix}say | Repeats the words you write
+${prefix}members | Show you the number of all cases of people and the number of bots and the number of people
+${prefix}id | information about you
+${prefix}avatar | Your picture or someone else's picture
+${prefix}embed | Repeats to say sweetly
+
+**
+  `
+,`
+        ***__Administrative Orders | أوامر ادمن__***
+**
+${prefix}mute @user <time> | Give User Mute
+${prefix}unmute @user | To remove mute from the person
+${prefix}kick @user <reason> | kick the person from the server
+${prefix}ban @user <reason> | banned the person from the server
+${prefix}log #room 
+
+**
+   `,`
+        ***__Music orders | أوامر موسيقي__***
+**
+${prefix}play | Play a song with a link or a name
+${prefix}skip | To skip the current song
+${prefix}pause | Pause the song
+${prefix}resume | To continue the song after paused
+${prefix}vol | To change the vol 100 - 0
+${prefix}stop | Take out the bot from the room
+${prefix}np | To know the currently playing song
+${prefix}queue | To see the playlist
+
+**
+   
+`]
+    let page = 1;
+
+    let embed = new Discord.RichEmbed()
+    .setColor('RANDOM')
+    .setFooter(`Page ${page} of ${pages.length}`)
+    .setDescription(pages[page-1])
+
+    message.author.sendEmbed(embed).then(msg => {
+
+        msg.react('⏮').then( r => {
+            msg.react('⏭')
+
+
+        const backwardsFilter = (reaction, user) => reaction.emoji.name === '⏮' && user.id === message.author.id;
+        const forwardsFilter = (reaction, user) => reaction.emoji.name === '⏭' && user.id === message.author.id;
+
+
+        const backwards = msg.createReactionCollector(backwardsFilter, { time: 2000000});
+        const forwards = msg.createReactionCollector(forwardsFilter, { time: 2000000});
+
+
+
+        backwards.on('collect', r => {
+            if (page === 1) return;
+            page--;
+            embed.setDescription(pages[page-1]);
+            embed.setFooter(`Page ${page} of ${pages.length}`);
+            msg.edit(embed)
+        })
+        forwards.on('collect', r => {
+            if (page === pages.length) return;
+      
+      page++;
+            embed.setDescription(pages[page-1]);
+            embed.setFooter(`Page ${page} of ${pages.length}`);
+            msg.edit(embed)
+        })
+        })
+    })
+    }
+}); 
+client.on('message', message => {
   if(!message.channel.guild) return;
 if(message.content.startsWith('*bc')) {
 if(!message.channel.guild) return message.channel.send('**this command only for server**').then(m => m.delete(5000));
@@ -258,6 +341,263 @@ client.on('message', message => {
 message.channel.send(`**:white_check_mark: ${user.tag} He was booked a trip outside the server and is now amused ! :airplane: **  `)
 
 }
+});
+client.on('message', message => {
+  if (message.author.x5bz) return;
+  if (!message.content.startsWith(prefix)) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+
+  if (command == "kick") {
+               if(!message.channel.guild) return message.reply('** this command only for server**');
+         
+  if(!message.guild.member(message.author).hasPermission("KICK_MEMBERS")) return message.reply("**you don't have ` KICK_MEMBERS ` permission**");
+  if(!message.guild.member(client.user).hasPermission("KICK_MEMBERS")) return message.reply("**you don't have ` KICK_MEMBERS ` permission**");
+  let user = message.mentions.users.first();
+  let reason = message.content.split(" ").slice(2).join(" ");
+  if (message.mentions.users.size < 1) return message.reply("**mention Person**");
+  if(!reason) return message.reply ("**Type the reason for the kick**");
+  if (!message.guild.member(user)
+  .kickable) return message.reply("**I can't kick someone higher than my rank , Please give the bot a higher rank**");
+
+  message.guild.member(user).kick();
+
+  const kickembed = new Discord.RichEmbed()
+  .setAuthor(`KICKED!`, user.displayAvatarURL)
+  .setColor("RANDOM")
+  .setTimestamp()
+  .addField("**User:**",  '**[ ' + `${user.tag}` + ' ]**')
+  .addField("**By:**", '**[ ' + `${message.author.tag}` + ' ]**')
+  .addField("**Reason:**", '**[ ' + `${reason}` + ' ]**')
+  message.channel.send({
+    embed : kickembed
+  })
+}
+});
+client.on('guildMemberUpdate', (oldMember, newMember) => { 
+    var logChannel = oldMember.guild.channels.find(c => c.name === 'log'); 
+    if(!logChannel) return;
+ 
+    oldMember.guild.fetchAuditLogs().then(logs => {
+        var userID = logs.entries.first().executor.id; 
+        var userAvatar = logs.entries.first().executor.avatarURL;
+        var userTag = logs.entries.first().executor.tag;
+ 
+        if(oldMember.nickname !== newMember.nickname) {
+            if(oldMember.nickname === null) {
+                var oldNM = '\`\`اسمه الاصلي\`\`';
+            }else {
+                var oldNM = oldMember.nickname;
+            }
+            if(newMember.nickname === null) {
+                var newNM = '\`\`اسمه الاصلي\`\`'; 
+            }else {
+                var newNM = newMember.nickname;
+            }
+ 
+            let updateNickname = new Discord.RichEmbed()
+            .setTitle('**[UPDATE MEMBER NICKNAME]**')
+            .setThumbnail(userAvatar)
+            .setColor('BLUE')
+            .setDescription(`**\n**:spy: Successfully \`\`CHANGE\`\` Member Nickname.\n\n**User:** ${oldMember} (ID: ${oldMember.id})\n**Old Nickname:** ${oldNM}\n**New Nickname:** ${newNM}\n**By:** <@${userID}> (ID: ${userID})`)
+            .setTimestamp()
+            .setFooter(oldMember.guild.name, oldMember.guild.iconURL)
+  
+            logChannel.send(updateNickname);
+        }
+        if(oldMember.roles.size < newMember.roles.size) {
+            let role = newMember.roles.filter(r => !oldMember.roles.has(r.id)).first();
+ 
+            let roleAdded = new Discord.RichEmbed()
+            .setTitle('**[ADDED ROLE TO MEMBER]**') 
+            .setThumbnail(oldMember.guild.iconURL)
+            .setColor('GREEN')
+            .setDescription(`**\n**:white_check_mark: Successfully \`\`ADDED\`\` Role to **${oldMember.user.username}**\n\n**User:** <@${oldMember.id}> (ID: ${oldMember.user.id})\n**Role:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
+            .setTimestamp()
+            .setFooter(userTag, userAvatar) 
+ 
+            logChannel.send(roleAdded);
+        }
+        if(oldMember.roles.size > newMember.roles.size) {
+            let role = oldMember.roles.filter(r => !newMember.roles.has(r.id)).first();
+ 
+            let roleRemoved = new Discord.RichEmbed()
+            .setTitle('**[REMOVED ROLE FROM MEMBER]**')
+            .setThumbnail(oldMember.guild.iconURL)
+            .setColor('RED')
+            .setDescription(`**\n**:negative_squared_cross_mark: Successfully \`\`REMOVED\`\` Role from **${oldMember.user.username}**\n\n**User:** <@${oldMember.user.id}> (ID: ${oldMember.id})\n**Role:** \`\`${role.name}\`\` (ID: ${role.id})\n**By:** <@${userID}> (ID: ${userID})`)
+            .setTimestamp()
+            .setFooter(userTag, userAvatar) 
+ 
+            logChannel.send(roleRemoved);
+        }
+    })
+    if(oldMember.guild.owner.user.id !== newMember.guild.owner.user.id) {
+        let newOwner = new Discord.RichEmbed()
+        .setTitle('**[UPDATE GUILD OWNER]**')
+        .setThumbnail(oldMember.guild.iconURL)
+        .setColor('GREEN')
+        .setDescription(`**\n**:white_check_mark: Successfully \`\`TRANSFER\`\` The Owner Ship.\n\n**Old Owner:** <@${oldMember.user.id}> (ID: ${oldMember.user.id})\n**New Owner:** <@${newMember.user.id}> (ID: ${newMember.user.id})`)
+        .setTimestamp()
+        .setFooter(oldMember.guild.name, oldMember.guild.iconURL)
+ 
+        logChannel.send(newOwner);
+    }
+});
+client.on('guildMemberAdd', member => {
+  var logChannel = member.guild.channels.find(c => c.name === 'log'); 
+  if(!logChannel) return;
+  
+  let newMember = new Discord.RichEmbed()
+  .setTitle('**[NEW MEMBER ADDED]**') 
+  .setThumbnail(member.user.avatarURL)
+  .setColor('GREEN')
+  .setDescription(`**\n**:arrow_lower_right: Joined **${member.user.username}** To the server!\n\n**User:** <@${member.user.id}> (ID: ${member.user.id})\n**Days In Discord:** ${Days(member.user.createdAt)}`)
+  .setTimestamp()
+  .setFooter(member.user.tag, member.user.avatarURL)
+ 
+  logChannel.send(newMember);
+});
+function Days(date) {
+    let now = new Date();
+    let diff = now.getTime() - date.getTime();
+    let days = Math.floor(diff / 86400000);
+    return days + (days == 1 ? " day" : " days") + " ago";
+}
+client.on('guildMemberRemove', member => { 
+  var logChannel = member.guild.channels.find(c => c.name === 'log'); 
+  if(!logChannel) return; 
+ 
+  let leaveMember = new Discord.RichEmbed()
+  .setTitle('**[LEAVE MEMBER]**')
+  .setThumbnail(member.user.avatarURL)
+  .setColor('GREEN')
+  .setDescription(`**\n**:arrow_upper_left: Leave **${member.user.username}** From the server.\n\n**User:** <@${member.user.id}> (ID: ${member.user.id})`)  
+  .setTimestamp() 
+  .setFooter(member.user.tag, member.user.avatarURL)
+  
+  logChannel.send(leaveMember);
+});
+ 
+ 
+
+client.on('voiceStateUpdate', (voiceOld, voiceNew) => {
+ 
+    if(!voiceOld.guild.member(client.user).hasPermission('EMBED_LINKS')) return;
+    if(!voiceOld.guild.member(client.user).hasPermission('VIEW_AUDIT_LOG')) return;
+ 
+    var logChannel = voiceOld.guild.channels.find(c => c.name === 'log');
+    if(!logChannel) return;
+ 
+    voiceOld.guild.fetchAuditLogs().then(logs => {
+        var userID = logs.entries.first().executor.id;
+        var userTag = logs.entries.first().executor.tag;
+        var userAvatar = logs.entries.first().executor.avatarURL;
+ 
+
+        if(voiceOld.serverMute === false && voiceNew.serverMute === true) {
+            let serverMutev = new Discord.RichEmbed()
+            .setTitle('**[VOICE MUTE]**')
+            .setThumbnail('https://images-ext-1.discordapp.net/external/pWQaw076OHwVIFZyeFoLXvweo0T_fDz6U5C9RBlw_fQ/https/cdn.pg.sa/UosmjqDNgS.png')
+            .setColor('RED')
+            .setDescription(`**User:** <@${voiceOld.user.id}> (ID: ${voiceOld.user.id})\n**By:** <@${userID}> (ID: ${userID})\n**Channel:** \`\`${voiceOld.voiceChannel.name}\`\` (ID: ${voiceOld.voiceChannel.id})`)
+            .setTimestamp()
+            .setFooter(userTag, userAvatar)
+ 
+            logChannel.send(serverMutev);
+        }
+
+        if(voiceOld.serverMute === true && voiceNew.serverMute === false) {
+            let serverUnmutev = new Discord.RichEmbed()
+            .setTitle('**[VOICE UNMUTE]**')
+            .setThumbnail('https://images-ext-1.discordapp.net/external/u2JNOTOc1IVJGEb1uCKRdQHXIj5-r8aHa3tSap6SjqM/https/cdn.pg.sa/Iy4t8H4T7n.png')
+            .setColor('GREEN')
+            .setDescription(`**User:** <@${voiceOld.user.id}> (ID: ${voiceOld.user.id})\n**By:** <@${userID}> (ID: ${userID})\n**Channel:** \`\`${voiceOld.voiceChannel.name}\`\` (ID: ${voiceOld.voiceChannel.id})`)
+            .setTimestamp()
+            .setFooter(userTag, userAvatar)
+ 
+            logChannel.send(serverUnmutev);
+        }
+
+        if(voiceOld.serverDeaf === false && voiceNew.serverDeaf === true) {
+            let serverDeafv = new Discord.RichEmbed()
+            .setTitle('**[VOICE DEAFEN]**')
+            .setThumbnail('https://images-ext-1.discordapp.net/external/7ENt2ldbD-3L3wRoDBhKHb9FfImkjFxYR6DbLYRjhjA/https/cdn.pg.sa/auWd5b95AV.png')
+            .setColor('RED')
+            .setDescription(`**User:** <@${voiceOld.user.id}> (ID: ${voiceOld.user.id})\n**By:** <@${userID}> (ID: ${userID})\n**Channel:** \`\`${voiceOld.voiceChannel.name}\`\` (ID: ${voiceOld.voiceChannel.id})`)
+            .setTimestamp()
+            .setFooter(userTag, userAvatar)
+ 
+            logChannel.send(serverDeafv);
+        }
+
+        if(voiceOld.serverDeaf === true && voiceNew.serverDeaf === false) {
+            let serverUndeafv = new Discord.RichEmbed() 
+            .setTitle('**[VOICE UNDEAFEN]**')
+            .setThumbnail('https://images-ext-2.discordapp.net/external/s_abcfAlNdxl3uYVXnA2evSKBTpU6Ou3oimkejx3fiQ/https/cdn.pg.sa/i7fC8qnbRF.png')
+            .setColor('GREEN')
+            .setDescription(`**User:** <@${voiceOld.user.id}> (ID: ${voiceOld.user.id})\n**By:** <@${userID}> (ID: ${userID})\n**Channel:** \`\`${voiceOld.voiceChannel.name}\`\` (ID: ${voiceOld.voiceChannel.id})`)
+            .setTimestamp()
+            .setFooter(userTag, userAvatar)
+ 
+            logChannel.send(serverUndeafv); 
+        }
+    })
+
+    if(voiceOld.voiceChannelID !== voiceNew.voiceChannelID && !voiceOld.voiceChannel) {
+        let voiceJoin = new Discord.RichEmbed()
+        .setTitle('**[JOIN VOICE ROOM]**')
+        .setColor('GREEN')
+        .setThumbnail(voiceOld.user.avatarURL)
+        .setDescription(`**\n**:arrow_lower_right: Successfully \`\`JOIN\`\` To Voice Channel.\n\n**Channel:** \`\`${voiceNew.voiceChannel.name}\`\` (ID: ${voiceNew.voiceChannelID})\n**User:** ${voiceOld} (ID: ${voiceOld.id})`)
+        .setTimestamp()
+        .setFooter(voiceOld.user.tag, voiceOld.user.avatarURL)
+ 
+        logChannel.send(voiceJoin);
+    }
+
+    if(voiceOld.voiceChannelID !== voiceNew.voiceChannelID && !voiceNew.voiceChannel) {
+        let voiceLeave = new Discord.RichEmbed()
+        .setTitle('**[LEAVE VOICE ROOM]**')
+        .setColor('GREEN')
+        .setThumbnail(voiceOld.user.avatarURL)
+        .setDescription(`**\n**:arrow_upper_left: Successfully \`\`LEAVE\`\` From Voice Channel.\n\n**Channel:** \`\`${voiceOld.voiceChannel.name}\`\` (ID: ${voiceOld.voiceChannelID})\n**User:** ${voiceOld} (ID: ${voiceOld.id})`)
+        .setTimestamp()
+        .setFooter(voiceOld.user.tag, voiceOld.user.avatarURL)
+ 
+        logChannel.send(voiceLeave); 
+    }
+
+    if(voiceOld.voiceChannelID !== voiceNew.voiceChannelID && voiceNew.voiceChannel && voiceOld.voiceChannel != null) {
+        let voiceLeave = new Discord.RichEmbed()
+        .setTitle('**[CHANGED VOICE ROOM]**')
+        .setColor('GREEN')
+        .setThumbnail(voiceOld.user.avatarURL)
+        .setDescription(`**\n**:repeat: Successfully \`\`CHANGED\`\` The Voice Channel.\n\n**From:** \`\`${voiceOld.voiceChannel.name}\`\` (ID: ${voiceOld.voiceChannelID})\n**To:** \`\`${voiceNew.voiceChannel.name}\`\` (ID: ${voiceNew.voiceChannelID})\n**User:** ${voiceOld} (ID: ${voiceOld.id})`)
+        .setTimestamp()
+        .setFooter(voiceOld.user.tag, voiceOld.user.avatarURL)
+ 
+        logChannel.send(voiceLeave);
+    }  
+}); 
+client.on('message', message => {
+    if (message.content.startsWith("*avatar")) {
+if(!message.channel.guild) return;
+        var mentionned = message.mentions.users.first();
+    var client;
+      if(mentionned){
+          var client = mentionned; } else {
+          var client = message.author;
+      }
+        const embed = new Discord.RichEmbed()
+                           .addField('Requested by:', "<@" + message.author.id + ">")
+        .setColor(000000)
+        .setImage(`${client.avatarURL}`)
+      message.channel.sendEmbed(embed);
+    }
 });
 client.on('message', msg => {
   if (msg.content === 'hi') {
