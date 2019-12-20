@@ -107,10 +107,158 @@ if(!message.guild.member(client.user).hasPermission("MANAGE_ROLES")) return mess
   }
 
 });
+client.on('message', message => {
+    if (message.content.startsWith(prefix + "bot")) {
+    message.channel.send({
+        embed: new Discord.RichEmbed()
+            .setAuthor(client.user.username,client.user.avatarURL)
+            .setThumbnail(client.user.avatarURL)
+            .setColor('RANDOM')
+            .setTitle('``Vengance Developers Team ©`` ')
+            .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
+            .addField('``RAM Usage``', `[${(process.memoryUsage().rss / 1048576).toFixed()}MB]`, true)
+            .addField('``servers``', [client.guilds.size], true)
+            .addField('``channels``' , `[ ${client.channels.size} ]` , true)
+            .addField('``Users``' ,`[ ${client.users.size} ]` , true)
+            .addField('``My Name``' , `[ ${client.user.tag} ]` , true)
+            .addField('``My ID``' , `[ ${client.user.id} ]` , true)
+			      .addField('``My Prefix``' , `[ * ]` , true)
+			      .addField('``My Language``' , `[ olix Script ]` , true)
+			      .setFooter('By | @!Ar5z#2156')
+    })
+}
+});
+client.on('message', message => {
+var args = message.content.split(" ").slice(1);    
+if(message.content.startsWith(prefix + 'id')) {
+var year = message.author.createdAt.getFullYear()
+var month = message.author.createdAt.getMonth()
+var day = message.author.createdAt.getDate()
+var men = message.mentions.users.first();  
+let args = message.content.split(' ').slice(1).join(' ');
+if (args == '') {
+var z = message.author;
+}else {
+var z = message.mentions.users.first();
+}
+
+let d = z.createdAt;          
+let n = d.toLocaleString();   
+let x;                       
+let y;                        
+
+if (z.presence.game !== null) {
+y = `${z.presence.game.name}`;
+} else {
+y = "No Playing...";
+}
+if (z.bot) {
+var w = 'BOT';
+}else {
+var w = 'MEMBER';
+}
+let embed = new Discord.RichEmbed()
+.setColor('RANDOM')
+.setTitle(`**INFO** ${z.username}`)
+.addField('`Your Name`',`**<@` + `${z.id}` + `>**`, true)
+.addField('`ID`', "**"+ `${z.id}` +"**",true)
+.addField('`Status`','**'+y+'**' , true)
+.addField('`Acount Type`',"**"+ w + "**",true)    
+.addField('`Your Tag`',"**#" +  `${z.discriminator}**`,true)
+.addField('`Your account created in`' ,year + "-"+ month +"-"+ day)    
+.addField("`Entered the server in`", message.member.joinedAt.toLocaleString())    
+.addField("`Last Message`", message.author.lastMessage)            
+
+.setThumbnail(`${z.avatarURL}`)
+.setFooter(message.author.username, message.author.avatarURL)
+
+message.channel.send({embed});
+    if (!message) return message.reply('**Sacrifice the mention properly  ? **')
+
+}
+});
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
+client.on('message',function(message) {
+  if (message.author.bot) return;
+                  if(!message.channel.guild) return;
 
+                    if (message.content === prefix + "members") {
+ const embed = new Discord.RichEmbed()
+
+    .setDescription(`**Members info 
+:green_heart: online:   ${message.guild.members.filter(m=>m.presence.status == 'online').size}
+:heart:  dnd:       ${message.guild.members.filter(m=>m.presence.status == 'dnd').size}
+:yellow_heart:  idle:     ${message.guild.members.filter(m=>m.presence.status == 'idle').size}
+:diamond_shape_with_a_dot_inside:   membersCount:  ${message.guild.memberCount - message.guild.members.filter(m=>m.user.bot).size}
+:bulb: bots: ${message.guild.members.filter(m=>m.user.bot).size} **`)
+         message.channel.send({embed});
+
+    }
+      }); 
+
+client.on('message', message => {
+  if (message.author.bot) return;
+
+  if (!message.content.startsWith(prefix)) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+
+// +say
+  if (command === "say") {
+if(!message.channel.guild) return message.channel.send('**this command only for server**').then(m => m.delete(5000));
+  if(!message.member.hasPermission('ADMINISTRATOR')) return      message.channel.send('**sorry you dont have permission** `ADMINISTRATOR`' );
+          message.delete()
+    message.channel.sendMessage(args.join(" "))
+  }
+  
+ 
+
+if (command == "embed") {
+if(!message.channel.guild) return message.channel.send('**this command only for server**').then(m => m.delete(5000));
+  if(!message.member.hasPermission('MANAGE_MESSAGES')) return      message.channel.send('**sorry you dont have permission** `MANAGE_MESSAGES`' );
+    let say = new Discord.RichEmbed()
+    .setDescription(args.join("  "))
+    .setColor(0x23b2d6)
+    message.channel.sendEmbed(say);
+    message.delete();
+    
+  }
+
+
+});
+client.on('message', message => {
+  if (message.author.codes) return;
+  if (!message.content.startsWith(prefix)) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+
+  if (command == "ban") {
+               if(!message.channel.guild) return message.reply('** this command only for server**');
+         
+  if(!message.guild.member(message.author).hasPermission("BAN_MEMBERS")) return message.reply("**You do not have the required permission**");
+  if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**you don't ` BAN_MEMBERS ` permission**");
+  let user = message.mentions.users.first();
+  
+  if (message.mentions.users.size < 1) return message.reply("**mention person**");
+  if (!message.guild.member(user)
+  .bannable) return message.reply("**The bot rank must be higher than the rank of the person to be ban**");
+
+
+  message.guild.member(user).ban(7, user);
+
+message.channel.send(`**:white_check_mark: ${user.tag} He was booked a trip outside the server and is now amused ! :airplane: **  `)
+
+}
+});
 client.on('message', msg => {
   if (msg.content === 'hi') {
     msg.reply('hello <3!');
