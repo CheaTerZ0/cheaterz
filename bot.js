@@ -9,7 +9,6 @@ if (message.content.startsWith(prefix + 'help')) { /// هذه قائمة الأ�
 
      ***__General orders | أوامر عامة__***
 **
-
 ${prefix}say | Repeats the words you write
 ${prefix}members | Show you the number of all cases of people and the number of bots and the number of people
 ${prefix}id | information about you
@@ -17,8 +16,7 @@ ${prefix}avatar | Your picture or someone else's picture
 ${prefix}embed | Repeats to say sweetly
 
 **
-  `
-,`
+   `,`
         ***__Administrative Orders | أوامر ادمن__***
 **
 ${prefix}mute @user <time> | Give User Mute
