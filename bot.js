@@ -23,7 +23,7 @@ ${prefix}mute @user <time> | Give User Mute
 ${prefix}unmute @user | To remove mute from the person
 ${prefix}kick @user <reason> | kick the person from the server
 ${prefix}ban @user <reason> | banned the person from the server
-${prefix}log #room 
+${prefix}setlog #room 
 
 **
    `,`
