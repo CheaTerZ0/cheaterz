@@ -674,7 +674,7 @@ client.on('message', msg => {
 
 client.on('ready', function(){
     var ms = 60000 ;
-    var setGame = ['*help | *is'];
+    var setGame = ['*help | *is','*help | *is to invite the bot'];
     var i = -1;
     var j = 0;
     setInterval(function (){
