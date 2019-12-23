@@ -196,7 +196,7 @@ client.on('message', message => {
             .setAuthor(client.user.username,client.user.avatarURL)
             .setThumbnail(client.user.avatarURL)
             .setColor('RANDOM')
-            .setTitle('``Vengance Developers Team ©`` ')
+            .setTitle('``Olix Developers Team ©`` ')
             .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
             .addField('``RAM Usage``', `[${(process.memoryUsage().rss / 1048576).toFixed()}MB]`, true)
             .addField('``servers``', [client.guilds.size], true)
@@ -205,7 +205,7 @@ client.on('message', message => {
             .addField('``My Name``' , `[ ${client.user.tag} ]` , true)
             .addField('``My ID``' , `[ ${client.user.id} ]` , true)
 			      .addField('``My Prefix``' , `[ * ]` , true)
-			      .addField('``My Language``' , `[ olix Script ]` , true)
+			      .addField('``My Language``' , `[ JavaScript ]` , true)
 			      .setFooter('By | @!Ar5z#2156')
     })
 }
@@ -674,7 +674,7 @@ client.on('message', msg => {
 
 client.on('ready', function(){
     var ms = 60000 ;
-    var setGame = ['Wlecome To Vengance Community'];
+    var setGame = ['*help | *is'];
     var i = -1;
     var j = 0;
     setInterval(function (){
