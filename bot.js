@@ -7,7 +7,7 @@ if (message.content.startsWith(prefix + 'help')) { /// هذه قائمة الأ�
     By : @!Ar5z#2156 
 	Bot Name : [olix]
 
-     ***__General orders | أوامر عامة__***
+        **__General orders | أوامر عامة__**
 **
 ${prefix}say | Repeats the words you write
 ${prefix}members | Show you the number of all cases of people and the number of bots and the number of people
