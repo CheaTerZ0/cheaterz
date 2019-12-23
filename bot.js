@@ -5,7 +5,7 @@ client.on('message', message => {
 if (message.content.startsWith(prefix + 'help')) { /// هذه قائمة الأوامر تفقد خاصك لقد رسلناها لك
     let pages = [`**
     By : @!Ar5z#2156 
-	Bot Name : [olixBOT]
+	Bot Name : [olix]
 
      ***__General orders | أوامر عامة__***
 **
@@ -14,6 +14,7 @@ ${prefix}members | Show you the number of all cases of people and the number of 
 ${prefix}id | information about you
 ${prefix}avatar | Your picture or someone else's picture
 ${prefix}embed | Repeats to say sweetly
+${prefix}sug | Send A suggestion to the server
 
 **
    `,`
@@ -557,6 +558,49 @@ if(!message.channel.guild) return;
         .setImage(`${client.avatarURL}`)
       message.channel.sendEmbed(embed);
     }
+});
+client.on('message', message => {
+    if (message.content.startsWith(prefix + 'sug')) {
+        if (message.author.bot) return
+        if (!message.guild) return message.reply('**:x: This Commands Just In Server**').then(v => {v.react('❌')})
+        var args =  message.content.split(' ').slice(1).join(' ')
+        if (!args) return message.reply('Type You Suggestion').then(c => {c.delete(5000)})
+        let Room = message.guild.channels.find(`name`, "suggestions")
+        if (!Room) return message.channel.send("Can't find suggestions channel, please create room with name suggestions .").then(d => d.react('❌'))
+        let embed = new Discord.RichEmbed()
+        .setColor('RANDOM')
+        .setAuthor(`Vote on ${message.author.username}'s suggestion`, message.author.avatarURL)
+       .addField('**Suggestion**',`${args}`)
+       .setThumbnail(message.author.avatarURL)
+       .setFooter(`ID: ${message.author.id}`)
+       Room.sendEmbed(embed).then(c => {
+           c.react('✅').then(() =>
+               c.react('❌'))
+           
+       }).catch(e => console.error(e)
+       )
+   }
+});
+client.on('message', message => {
+    if (message.content.startsWith(prefix + "is")) {
+    message.channel.send({
+        embed: new Discord.RichEmbed()
+            .setAuthor(client.user.username,client.user.avatarURL)
+            .setThumbnail(client.user.avatarURL)
+            .setColor('RANDOM')
+            .setTitle('``olix Developers Team ©`` ')
+            .addField('``Bot invite link``' , `https://discordapp.com/api/oauth2/authorize?client_id=608931919400402966&permissions=8&scope=bot,` , true)
+            .addField('``Support server link``', `[https://discord.gg/uZJHfJ4]` , true)
+            .addField('``Support email``', `[Olixbot@gmail.com]` , true)
+            .addField('``channels``' , `[ ${client.channels.size} ]` , true)
+            .addField('``Users``' ,`[ ${client.users.size} ]` , true)
+            .addField('``My Name``' , `[ ${client.user.tag} ]` , true)
+            .addField('``My ID``' , `[ ${client.user.id} ]` , true)
+			      .addField('``My Prefix``' , `[ * ]` , true)
+			      .addField('``My Language``' , `[ JavaScript ]` , true)
+			      .setFooter('By | @!Ar5z#2156')
+    })
+}
 });
 client.on('message', msg => {
   if (msg.content === 'hi') {
