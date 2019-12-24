@@ -5,7 +5,7 @@ client.on('message', message => {
 if (message.content.startsWith(prefix + 'help')) { /// هذه قائمة الأوامر تفقد خاصك لقد رسلناها لك
     let pages = [`**
     By : @!Ar5z#2156 
-	Bot Name : [olix]
+	Bot Name : [FrozensBot]
 
         **__General orders | أوامر عامة__**
 **
@@ -197,7 +197,7 @@ client.on('message', message => {
             .setAuthor(client.user.username,client.user.avatarURL)
             .setThumbnail(client.user.avatarURL)
             .setColor('RANDOM')
-            .setTitle('``Olix Developers Team ©`` ')
+            .setTitle('``Frozens Developers Team ©`` ')
             .addField('``My Ping``' , [`${Date.now() - message.createdTimestamp}` + 'MS'], true)
             .addField('``RAM Usage``', `[${(process.memoryUsage().rss / 1048576).toFixed()}MB]`, true)
             .addField('``servers``', [client.guilds.size], true)
@@ -588,7 +588,7 @@ client.on('message', message => {
             .setAuthor(client.user.username,client.user.avatarURL)
             .setThumbnail(client.user.avatarURL)
             .setColor('RANDOM')
-            .setTitle('``olix Developers Team ©`` ')
+            .setTitle('``Frozens Developers Team ©`` ')
             .addField('``Bot invite link``' , `https://discordapp.com/api/oauth2/authorize?client_id=608931919400402966&permissions=8&scope=bot,` , true)
             .addField('``Support server link``', `[https://discord.gg/uZJHfJ4]` , true)
             .addField('``Support email``', `[Olixbot@gmail.com]` , true)
@@ -737,7 +737,7 @@ client.on('message', msg => {
 
 client.on('ready', function(){
     var ms = 60000 ;
-    var setGame = ['*help | *is','*help | *is to invite the bot'];
+    var setGame = ['*help | *is','*is to invite the bot'];
     var i = -1;
     var j = 0;
     setInterval(function (){
